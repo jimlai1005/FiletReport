@@ -38,11 +38,13 @@ jQuery(document).ready(function() {
 // Report API
 	$('.report form').submit(function(e) {
 		e.preventDefault();
+		$('.btn').attr("disabled", true);
 	    var postdata = $('.report form').serialize();
 	    var requestData = {
             auth: $('.report_code').val().trim(),
             startTime: $('.report_start_date').val().trim(),
-            endTime: $('.report_end_date').val().trim()
+            endTime: $('.report_end_date').val().trim(),
+            email: $('.report_email').val().trim()
         };
 	    $.ajax({
 	        type: 'POST',
@@ -63,7 +65,13 @@ jQuery(document).ready(function() {
 		        	$('.report-error-message').html(jsonErrors.message);
 		        	$('.report-error-message').fadeIn();
 		        }
+
+		        // Enable the button back
+            	$('.btn').attr('disabled', false);
 	        },
+	        error: function() {
+	            $('.btn').attr('disabled', false);
+	        }
 	    });
 	});
 });
